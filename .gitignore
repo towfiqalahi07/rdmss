@@ -1,0 +1,7 @@
+node_modules
+.next
+.env
+*.db
+*.db-journal
+server_output.log
+verification/
