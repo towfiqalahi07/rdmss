@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  password      String    // In a real app, this should be hashed
+  name          String
+  college       String
+  session       String    // Restricted to 2025-26
+  district      String
+  role          String    @default("STUDENT") // STUDENT, AMBASSADOR, ADMIN
+  bio           String?
+  skills        String?   // Comma separated
+  interests     String?   // Comma separated
+  points        Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile       Profile?
+  announcements Announcement[]
+  blogPosts     BlogPost[]
+  helpRequests  HelpRequest[]
+  contributions Contribution[]
+  rsvps         EventRSVP[]
+}
+
+model Profile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id])
+  isPublic    Boolean @default(true)
+  phone       String?
+  facebookUrl String?
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  category  String   // Medical Tips, Experience, Career Guidance
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HelpRequest {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  type        String   // Financial, Medical, Academic, Other
+  status      String   @default("OPEN") // OPEN, RESOLVED
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  contributions Contribution[]
+}
+
+model Contribution {
+  id            String      @id @default(cuid())
+  requestId     String
+  request       HelpRequest @relation(fields: [requestId], references: [id])
+  contributorId String
+  contributor   User        @relation(fields: [contributorId], references: [id])
+  content       String?
+  createdAt     DateTime    @default(now())
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  authorId    String
+  createdAt   DateTime    @default(now())
+  rsvps       EventRSVP[]
+}
+
+model EventRSVP {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, userId])
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  url         String
+  caption     String?
+  createdAt   DateTime @default(now())
+}
