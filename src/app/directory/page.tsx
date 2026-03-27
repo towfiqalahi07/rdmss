@@ -1,10 +1,12 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import DirectoryClient from "@/components/DirectoryClient";
 
 export default async function DirectoryPage({
   searchParams,
 }: {
-  searchParams: { college?: string; district?: string; q?: string };
+  searchParams: Promise<{ college?: string; district?: string; q?: string }>;
 }) {
   const params = await searchParams; // In Next.js 15+, searchParams is a promise
   const { college, district, q } = params;
@@ -12,12 +14,12 @@ export default async function DirectoryPage({
   const users = await prisma.user.findMany({
     where: {
       AND: [
+        { status: "APPROVED" }, // Only show approved members
         college ? { college } : {},
         district ? { district } : {},
         q ? {
           OR: [
             { name: { contains: q } },
-            { username: { contains: q } },
             { skills: { contains: q } },
             { interests: { contains: q } },
           ],
@@ -31,7 +33,6 @@ export default async function DirectoryPage({
   const serializedUsers = users.map(u => ({
     id: u.id,
     name: u.name,
-    username: u.username,
     college: u.college,
     district: u.district,
     interests: u.interests,

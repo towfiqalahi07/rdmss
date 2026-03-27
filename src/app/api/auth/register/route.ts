@@ -1,51 +1,84 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { login } from "@/lib/auth";
 
-export async function POST(req: Request) {
+const prisma = new PrismaClient();
+
+export async function POST(request: Request) {
   try {
-    const { name, email, username, password, college, session, district } = await req.json();
+    const data = await request.json();
+    const {
+      email,
+      password,
+      name,
+      college,
+      session,
+      district,
+      skills,
+      interests,
+      goals,
+      contact
+    } = data;
 
-    // Session validation
-    if (session !== "2025-26") {
-      return NextResponse.json({ error: "Only 2025-26 session students can join." }, { status: 400 });
-    }
-
-    const userExists = await prisma.user.findFirst({
-      where: {
-        OR: [{ email }, { username }],
-      },
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (userExists) {
-      return NextResponse.json({ error: "User already exists." }, { status: 400 });
+    if (existingUser) {
+      return NextResponse.json(
+        { error: "User with this email already exists" },
+        { status: 400 }
+      );
     }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await prisma.user.create({
+    // Create a simple username from email if not provided
+    const username = email.split('@')[0] + Math.floor(Math.random() * 1000);
+
+    // Create the user
+    const newUser = await prisma.user.create({
       data: {
-        name,
         email,
         username,
         password: hashedPassword,
+        name,
         college,
         session,
         district,
+        skills: Array.isArray(skills) ? skills.join(", ") : (skills || ""),
+        interests: Array.isArray(interests) ? interests.join(", ") : (interests || ""),
+        goals: Array.isArray(goals) ? goals.join(", ") : (goals || ""),
+        contact: contact || "",
+        status: "PENDING", // All new members are pending approval
         role: "STUDENT",
-        profile: {
-          create: {
-            isPublic: true,
-          },
-        },
       },
     });
 
-    return NextResponse.json({ message: "Registration successful", user: { id: user.id, username: user.username } }, { status: 201 });
-  } catch (err) {
-    console.error("Register Error:", err);
-    return NextResponse.json({ error: "Failed to create account." }, { status: 500 });
+    // Automatically log the user in after registration
+    await login({
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+      status: newUser.status,
+    });
+
+    return NextResponse.json({
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        role: newUser.role,
+        status: newUser.status,
+      },
+    });
+  } catch (error: any) {
+    console.error("Registration error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function PATCH(req: Request) {
   try {
-    const { userId, bio, skills, interests } = await req.json();
+    const { userId, bio, skills, interests, goals } = await req.json();
 
     const user = await prisma.user.update({
       where: { id: userId },
@@ -13,6 +13,7 @@ export async function PATCH(req: Request) {
         bio,
         skills,
         interests,
+        goals,
       },
     });
 

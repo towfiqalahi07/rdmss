@@ -17,9 +17,12 @@ model User {
   session       String    // Restricted to 2025-26
   district      String
   role          String    @default("STUDENT") // STUDENT, AMBASSADOR, ADMIN
+  status        String    @default("PENDING") // PENDING, APPROVED, REJECTED
   bio           String?
   skills        String?   // Comma separated
   interests     String?   // Comma separated
+  goals         String?   // Comma separated
+  contact       String?
   points        Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

@@ -1,30 +1,53 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { login } from "@/lib/auth";
 
-export async function POST(req: Request) {
+const prisma = new PrismaClient();
+
+export async function POST(request: Request) {
   try {
-    const { username, password } = await req.json();
+    const { email, password } = await request.json();
 
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { email },
     });
 
     if (!user) {
-      return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
-    return NextResponse.json({ message: "Login successful", user: { id: user.id, username: user.username, role: user.role } }, { status: 200 });
-  } catch (err) {
-    console.error("Login Error:", err);
-    return NextResponse.json({ error: "Failed to login." }, { status: 500 });
+    // Set the session cookie via the server-side action
+    await login({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+    });
+
+    return NextResponse.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

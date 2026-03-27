@@ -1,14 +1,315 @@
 
-> tmp-rdmss@0.1.0 start
-> next start
+> tmp-rdmss@0.1.0 dev
+> next dev
 
-⨯ Failed to start server
-Error: listen EADDRINUSE: address already in use :::3000
-    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)
-    at new Promise (<anonymous>) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 3000
-}
+⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+▲ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.2:3001
+- Environments: .env
+✓ Ready in 560ms
+
+○ Compiling / ...
+ GET / 200 in 4.0s (next.js: 3.5s, application-code: 465ms)
+ GET / 200 in 133ms (next.js: 5ms, application-code: 128ms)
+prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`email`, `main`.`User`.`username`, `main`.`User`.`password`, `main`.`User`.`name`, `main`.`User`.`college`, `main`.`User`.`session`, `main`.`User`.`district`, `main`.`User`.`role`, `main`.`User`.`status`, `main`.`User`.`bio`, `main`.`User`.`skills`, `main`.`User`.`interests`, `main`.`User`.`goals`, `main`.`User`.`points`, `main`.`User`.`createdAt`, `main`.`User`.`updatedAt` FROM `main`.`User` WHERE 1=1 ORDER BY `main`.`User`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /directory 200 in 940ms (next.js: 735ms, application-code: 205ms)
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count._all` FROM (SELECT `main`.`User`.`id` FROM `main`.`User` WHERE `main`.`User`.`district` = ? LIMIT ? OFFSET ?) AS `sub`
+ GET /map 200 in 1139ms (next.js: 769ms, application-code: 370ms)
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 309ms
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 28ms
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/lib/auth.ts:1:1
+Module not found: Can't resolve 'jose'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mSignJWT[0m, jwtVerify } [36mfrom[0m [32m"jose"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m"next/headers"[0m;
+  [90m3 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m"next/server"[0m;
+  [90m4 |[0m
+
+
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/auth.ts
+    ./src/middleware.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to /tmp/next-panic-8fcd34dfedbe7179cca8730778a50caa.log.
+
+To help make Turbopack better, report this error by clicking here: https://bugs.nextjs.org/search?category=turbopack-error-report&title=Turbopack%20Error%3A%20Next.js%20package%20not%20found&body=Turbopack%20version%3A%20%60600cd2fe%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0ANext.js%20package%20not%20found%0A%0ADebug%20info%3A%0A-%20Execution%20of%20subscribe_issues_and_diags_operation%20failed%0A-%20Execution%20of%20endpoint_server_changed_operation%20failed%0A-%20Execution%20of%20pick_endpoint%20failed%0A-%20Execution%20of%20entrypoints_without_collectibles_operation%20failed%0A-%20Execution%20of%20Project%3A%3Aentrypoints_with_app_route_filter%20failed%0A-%20Execution%20of%20AppProject%3A%3Aroutes_with_filter%20failed%0A-%20Execution%20of%20directory_tree_to_entrypoints_internal%20failed%0A-%20Execution%20of%20directory_tree_to_loader_tree%20failed%0A-%20Next.js%20package%20not%20found%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+Error: Turbopack build failed with 1 errors:
+./src/app
+Error: Next.js inferred your workspace root, but it may not be correct.
+    We couldn't find the Next.js package (next/package.json) from the project directory: /app/src/app
+     To fix this, set turbopack.root in your Next.js config, or ensure the Next.js package is resolvable from this directory.
+    Note: For security and performance reasons, files outside of the project directory will not be compiled.
+    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+
+    at ignore-listed frames
+[?25h

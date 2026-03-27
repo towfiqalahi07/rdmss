@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Image as ImageIcon, Camera, User } from "lucide-react";

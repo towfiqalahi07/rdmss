@@ -11,7 +11,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -27,10 +27,8 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        // In a real app, use a session or cookie
-        localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/u/" + data.user.username);
+        router.push("/profile");
+        router.refresh();
       } else {
         const data = await res.json();
         alert(data.error || "Login failed");
@@ -43,7 +41,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container mx-auto flex min-h-[calc(100vh-16rem)] items-center justify-center px-4 py-12">
+    <div className="container mx-auto flex min-h-[calc(100vh-16rem)] items-center justify-center px-4 py-12 pt-24">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
@@ -54,12 +52,13 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Username</label>
+              <label className="text-sm font-medium">Email Address</label>
               <Input
+                type="email"
                 required
-                placeholder="towfiq"
-                value={formData.username}
-                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                placeholder="towfiq@example.com"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
               />
             </div>
             <div className="space-y-2">

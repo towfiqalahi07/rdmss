@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User, BookOpen, MapPin, Award, Mail, Calendar, Download, Share2 } from "lucide-react";
+import { User, BookOpen, MapPin, Award, Mail, Calendar, Download, Share2, Compass } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -16,6 +16,7 @@ interface ProfileUser {
   bio: string | null;
   skills: string | null;
   interests: string | null;
+  goals: string | null;
   email: string;
   createdAt: string;
 }
@@ -158,6 +159,24 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
                       </div>
                     </div>
                   </div>
+
+                  {user.goals && (
+                    <div className="flex items-start space-x-4 group">
+                      <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <Compass size={20} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Career Goals</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {user.goals.split(",").map((g, i) => (
+                            <span key={i} className="rounded-full bg-blue-50 border border-blue-100 px-3 py-1 text-[10px] font-bold text-blue-700 uppercase tracking-wider">
+                              {g.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-8">
                   <div className="flex items-start space-x-4 group">

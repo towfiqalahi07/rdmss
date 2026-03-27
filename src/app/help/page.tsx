@@ -1,88 +1,136 @@
-import { prisma } from "@/lib/prisma";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/Card";
-import { Heart, Search, User, Calendar, MessageSquare, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
+import { Search, Filter, MapPin, GraduationCap, Users } from "lucide-react";
+
+const prisma = new PrismaClient();
 
 export default async function HelpPage({
   searchParams,
 }: {
-  searchParams: { type?: string };
+  searchParams: Promise<{ q?: string; category?: string }>;
 }) {
-  const { type } = searchParams;
+  const { q, category } = await searchParams;
 
-  const requests = await prisma.helpRequest.findMany({
-    where: type ? { type } : {},
-    include: { author: true, contributions: { include: { contributor: true } } },
+  const helpRequests = await prisma.helpRequest.findMany({
+    where: {
+      AND: [
+        q ? {
+          OR: [
+            { title: { contains: q } },
+            { description: { contains: q } },
+          ],
+        } : {},
+        category && category !== "all" ? { category } : {},
+      ],
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          college: true,
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-12 flex flex-col justify-between items-start md:flex-row md:items-end">
-        <div>
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">Help & Support</h1>
-          <p className="text-gray-600">Financial, Medical, or Academic help requests for students.</p>
-        </div>
-        <Button className="mt-4 md:mt-0">Post a Request</Button>
-      </div>
-
-      <div className="mb-12 grid grid-cols-2 gap-4 md:grid-cols-5">
-        {["Financial", "Medical", "Academic", "Other"].map((t) => (
-          <a
-            key={t}
-            href={`/help?type=${t}`}
-            className={`rounded-xl border-2 px-4 py-2 text-center text-sm font-semibold transition-all ${
-              type === t ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-100 hover:border-blue-200"
-            }`}
-          >
-            {t}
-          </a>
-        ))}
-        <a
-          href="/help"
-          className={`rounded-xl border-2 px-4 py-2 text-center text-sm font-semibold transition-all ${
-            !type ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-100 hover:border-blue-200"
-          }`}
-        >
-          All
-        </a>
-      </div>
-
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {requests.map((request) => (
-          <Card key={request.id} className="h-full overflow-hidden border-t-4 border-t-red-500">
-            <CardHeader>
-              <div className="mb-2 flex items-center justify-between">
-                <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 uppercase tracking-wide">{request.type}</span>
-                <span className="text-xs text-gray-400 font-medium">{new Date(request.createdAt).toLocaleDateString()}</span>
-              </div>
-              <CardTitle className="text-xl font-bold text-gray-900">{request.title}</CardTitle>
-              <CardDescription className="flex items-center space-x-2 text-blue-600">
-                <User size={12} />
-                <span className="font-bold">{request.author.name}</span>
-                <span className="text-gray-300">•</span>
-                <span>{request.author.college}</span>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 leading-relaxed mb-6 line-clamp-4">{request.content}</p>
-              <div className="flex items-center space-x-2 text-xs font-bold text-gray-400">
-                <MessageSquare size={14} />
-                <span>{request.contributions.length} Contributions</span>
-              </div>
-            </CardContent>
-            <CardFooter className="flex space-x-4 border-t pt-6 bg-gray-50/50">
-              <Button size="sm" className="bg-red-500 hover:bg-red-600">I can help</Button>
-              <Button size="sm" variant="outline">View Full Request</Button>
-            </CardFooter>
-          </Card>
-        ))}
-        {requests.length === 0 && (
-          <div className="col-span-full py-20 text-center">
-            <AlertCircle className="mx-auto mb-4 h-12 w-12 text-gray-200" />
-            <p className="text-gray-500 italic">No help requests found in this category.</p>
+    <div className="pt-24 min-h-screen bg-gray-50 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+          <div>
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Help & Support</h1>
+            <p className="text-gray-600 text-lg">Post requests for financial, academic, or medical assistance.</p>
           </div>
-        )}
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg flex items-center">
+            <Users size={20} className="mr-2" /> Post a Request
+          </button>
+        </div>
+
+        {/* Search and Filter */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+          <form className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                name="q"
+                defaultValue={q}
+                placeholder="Search requests..."
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              />
+            </div>
+            <select
+              name="category"
+              defaultValue={category || "all"}
+              className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+            >
+              <option value="all">All Categories</option>
+              <option value="FINANCIAL">Financial Help</option>
+              <option value="MEDICAL">Medical Emergency</option>
+              <option value="ACADEMIC">Academic Help</option>
+              <option value="OTHER">Others</option>
+            </select>
+            <button className="bg-gray-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">
+              Filter
+            </button>
+          </form>
+        </div>
+
+        {/* Request List */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {helpRequests.length > 0 ? (
+            helpRequests.map((request) => (
+              <div key={request.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col">
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    request.category === 'MEDICAL' ? 'bg-red-100 text-red-600' :
+                    request.category === 'FINANCIAL' ? 'bg-green-100 text-green-600' :
+                    'bg-blue-100 text-blue-600'
+                  }`}>
+                    {request.category}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(request.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{request.title}</h3>
+                <p className="text-gray-600 mb-6 line-clamp-3 text-sm flex-1">{request.description}</p>
+
+                <div className="pt-4 border-t border-gray-50 mt-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                        <Users size={14} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-gray-900">{request.user.name}</p>
+                        <p className="text-[10px] text-gray-500">{request.user.college}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+                      Contribute
+                    </button>
+                    <button className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition-colors">
+                      Contact
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full py-12 text-center">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search size={32} className="text-gray-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No requests found</h3>
+              <p className="text-gray-600">Try adjusting your search or category filters.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
